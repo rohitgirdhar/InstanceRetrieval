@@ -8,15 +8,17 @@ Usage
 
 ```bash
 $ git clone git@github.com:rohitgirdhar/InstanceRetrieval.git
-$ cd InstanceRetrieval/src
+$ cd InstanceRetrieval
 
 ## Obtain VLFeat
-$ git submodule
+$ git submodule init
+$ git submodule update
 # compile VLFeat
-$ cd vlfeat
+$ cd src/vlfeat
 $ make MEX=${MATLAB_ROOT}/bin/mex
-$ cd ..
+$ cd ../..
 
 ## Train
+$ cd src
 $ bash Train.sh [..options..] # a sample in demo file
 ```
