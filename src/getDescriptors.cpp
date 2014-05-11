@@ -79,12 +79,18 @@ int main(int argc, char* argv[]) {
     string imageName;
 
     fs::recursive_directory_iterator rdi(images_dir);
+    vector<string> img_names;
+    while (rdi != fs::recursive_directory_iterator()) {
+        img_names.push_back((*rdi).path().string());
+        rdi++;
+    }
+    sort(img_names.begin(), img_names.end());
+
     fs::remove(output_dir + IMG_NAMES_FNAME);
     ofstream imageNamesFile;
     imageNamesFile.open((output_dir + IMG_NAMES_FNAME).c_str(), ios::app);
-    while (rdi != fs::recursive_directory_iterator()) {
-        imageName = (*rdi).path().string();
-        rdi++;
+    for (int i = 0; i < img_names.size(); i++) {
+        imageName = img_names[i];
         
         string img_basename = fs::basename(imageName);
         imageNamesFile << img_basename << endl;
