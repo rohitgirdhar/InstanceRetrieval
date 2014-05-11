@@ -3,6 +3,12 @@ InstanceRetrieval
 
 Original Author : [Jay Panda](https://github.com/jaypanda "github")
 
+Dependencies
+------------
+1. OpenCV
+2. Boost C++ Libraries
+3. VLFeat (included in this distribution as a submodule)
+
 Usage
 -----
 

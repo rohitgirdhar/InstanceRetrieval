@@ -14,6 +14,7 @@ namespace fs = boost::filesystem;
 using namespace cv;
 using namespace std;
 
+#define IMG_NAMES_FNAME "ImageNames.txt"
 
 int main(int argc, char* argv[]) {
     po::options_description desc("Allowed Options");
@@ -55,6 +56,7 @@ int main(int argc, char* argv[]) {
     fs::create_directory(output_dir + "keypoints");
     fs::create_directory(output_dir + "descriptors");
     fs::create_directory(output_dir + "MatFiles");
+    fs::create_directory(output_dir + "words");
 
 
     SIFT detector(num_sift_kpts);
@@ -77,9 +79,15 @@ int main(int argc, char* argv[]) {
     string imageName;
 
     fs::recursive_directory_iterator rdi(images_dir);
+    fs::remove(output_dir + IMG_NAMES_FNAME);
+    ofstream imageNamesFile;
+    imageNamesFile.open((output_dir + IMG_NAMES_FNAME).c_str(), ios::app);
     while (rdi != fs::recursive_directory_iterator()) {
         imageName = (*rdi).path().string();
         rdi++;
+        
+        string img_basename = fs::basename(imageName);
+        imageNamesFile << img_basename << endl;
         img_temp = imread(imageName, IMREAD_GRAYSCALE);
         int height = img_temp.rows;
         int width = img_temp.cols;
@@ -94,7 +102,6 @@ int main(int argc, char* argv[]) {
         }
         detector.detect(img,keypoints);
 
-        string img_basename = fs::basename(imageName);
         keyF = output_dir + "keypoints/K_" + img_basename + ".txt";
         DesF = output_dir + "descriptors/D_" + img_basename + ".txt";
         cout << keyF << endl;
@@ -123,6 +130,7 @@ int main(int argc, char* argv[]) {
         keypoints.erase(keypoints.begin(), keypoints.end());
         descriptors.release();
     }
+    imageNamesFile.close();
     descriptorsFile.close();
     descCountFile.close();
     return 0;
