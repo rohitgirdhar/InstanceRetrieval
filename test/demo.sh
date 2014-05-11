@@ -8,3 +8,5 @@ cd ../test/
 
 # Now use the ImageSearch program for search
 ./bobIR/ImageSearch -d ./bobIR/ -q Images_bob/00000000.jpg -l ${NLeaves}
+# use --resize for faster search
+./bobIR/ImageSearch -d ./bobIR/ -q Images_bob/00000000.jpg -l ${NLeaves} --resize
