@@ -27,4 +27,15 @@ $ cd ../..
 ## Train
 $ cd src
 $ bash Train.sh [..options..] # a sample in demo file
+
+## Test
+$ cd output-dir # output-dir is produced after training above
+$ ./ImageSearch [..options..] # Use `ImageSearch --help` to get options; or look at the demo
+```
+
+Demo
+----
+```bash
+$ cd test
+$ bash demo.sh
 ```
