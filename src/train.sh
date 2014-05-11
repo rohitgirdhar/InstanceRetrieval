@@ -7,13 +7,17 @@ then
     exit -1
 fi
 
+IMAGES_DIR=${1}
 OUTPUT_DIR=${2}
 BRANCH_FACTOR=${3}
 NUM_CLUSTERS=${4}
 
 make
-#./getDescriptors -i $1 -o $2
+./getDescriptors -i ${IMAGES_DIR} -o ${OUTPUT_DIR}
 
-# prefer run the following on atom (server)
 bash matlab_batcher.sh hikmeans \'${OUTPUT_DIR}\',${BRANCH_FACTOR},${NUM_CLUSTERS}
 bash matlab_batcher.sh parseTree \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
+bash matlab_batcher.sh quantize \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
+bash matlab_batcher.sh wordsInDir \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
+bash combineWordsKeys.sh ${OUTPUT_DIR}
+./buildSearchIndex -o ${OUTPUT_DIR}
