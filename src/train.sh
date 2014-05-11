@@ -21,3 +21,7 @@ bash matlab_batcher.sh quantize \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
 bash matlab_batcher.sh wordsInDir \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
 bash combineWordsKeys.sh ${OUTPUT_DIR}
 ./buildSearchIndex -o ${OUTPUT_DIR}
+mv ./ImageSearch $OUTPUT_DIR
+
+rm -r ${OUTPUT_DIR}/MatFiles ${OUTPUT_DIR}/Descriptors.txt ${OUTPUT_DIR}/descriptors
+
