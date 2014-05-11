@@ -54,6 +54,7 @@ int main(int argc, char* argv[]) {
     }
     fs::create_directory(output_dir + "keypoints");
     fs::create_directory(output_dir + "descriptors");
+    fs::create_directory(output_dir + "MatFiles");
 
 
     SIFT detector(num_sift_kpts);
