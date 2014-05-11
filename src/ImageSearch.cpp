@@ -31,6 +31,12 @@ typedef struct RImage{
     vector< Point2f > corners;
 }RImage;
 
+string to_string(int a) {
+    stringstream s;
+    s << a;
+    return s.str();
+}
+
 Tree* ParseTree(ifstream &t_file, int d){
     if( !t_file.good() ){
         return NULL;
@@ -104,10 +110,11 @@ int main(int argc, char *argv[]) {
     po::options_description desc("Allowed Options");
     desc.add_options()
         ("help", "Show this help message")
-        ("data-dir,d", po::value<string>(), "Output dir of the training process")
+        ("data-dir,d", po::value<string>()->required(), "Output dir of the training process")
         ("num-matches,n", po::value<int>()->default_value(5), "Number of matches to show")
         ("first-match,f", po::value<int>()->default_value(1), "Index of the first match returned. NOTE: 1 indexed")
-        ("query-img,q", po::value<string>(), "Query image path")
+        ("query-img,q", po::value<string>()->required(), "Query image path")
+        ("nleaves,l", po::value<int>()->required(), "nleaves value used while training hikmeans")
         ("resize,r", "Resize the query image to height = 360 for faster retrieval")
         ;
     
@@ -119,14 +126,13 @@ int main(int argc, char *argv[]) {
         cout << desc << endl;
         return -1;
     }
-    if (vm.count("data-dir") <= 0 || 
-        vm.count("query-img") <= 0) {
-        cerr << "data-dir, query-img is required argument" << endl;
-        return -1;
-    }
     string data_dir = vm["data-dir"].as<string>();
+    if (*data_dir.rbegin() != '/') {
+        data_dir += '/';
+    }
     int num_matches = vm["num-matches"].as<int>();
     int first_match = vm["first-match"].as<int>();
+    int nleaves = vm["nleaves"].as<int>();
     string query_img_path = vm["query-img"].as<string>();
     
     ifstream InvertedIndexFile((data_dir + "InvertedIndex.txt").c_str(), ios::in);
@@ -145,7 +151,7 @@ int main(int argc, char *argv[]) {
         }
     }
     InvertedIndexFile.close();
-    ifstream t_file((data_dir + "HKMeans_10000.Tree").c_str(),ios::in);
+    ifstream t_file((data_dir + "HKMeans_" + to_string(nleaves) + ".Tree").c_str(),ios::in);
     if (!t_file.is_open()) {
         cerr << "Error opening Tree file" << endl;
         return -1;
