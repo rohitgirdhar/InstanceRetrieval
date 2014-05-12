@@ -17,12 +17,14 @@ $ git clone git@github.com:rohitgirdhar/InstanceRetrieval.git
 $ cd InstanceRetrieval
 
 ## Obtain VLFeat
-$ git submodule init
+$ git submodule init src/vlfeat/
 $ git submodule update
 # compile VLFeat
 $ cd src/vlfeat
 $ make MEX=${MATLAB_ROOT}/bin/mex
 $ cd ../..
+## Optionally, you can use your existing VLFeat installation.
+# Just change the path to vlfeat in src/hikmeans.m
 
 ## Train
 $ cd src
@@ -36,6 +38,11 @@ $ ./ImageSearch [..options..] # Use `ImageSearch --help` to get options; or look
 Demo
 ----
 ```bash
+# Get the demo images 
+$ git submodule init test/Images_bob/
+$ git submodule update
+
+# run the demo
 $ cd test
 $ bash demo.sh
 ```
