@@ -12,8 +12,8 @@ OUTPUT_DIR=${2}/
 BRANCH_FACTOR=${3}
 NUM_CLUSTERS=${4}
 
-make
-./getDescriptors -i ${IMAGES_DIR} -o ${OUTPUT_DIR} --resize
+#make
+#./getDescriptors -i ${IMAGES_DIR} -o ${OUTPUT_DIR} --resize
 
 bash matlab_batcher.sh hikmeans \'${OUTPUT_DIR}\',${BRANCH_FACTOR},${NUM_CLUSTERS}
 bash matlab_batcher.sh parseTree \'${OUTPUT_DIR}\',${NUM_CLUSTERS}
